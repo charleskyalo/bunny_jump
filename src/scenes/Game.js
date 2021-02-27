@@ -5,6 +5,10 @@ export default class Game extends Phaser.Scene {
         super('game')
     }
 
+    /** @type { Phaser.Physics.Arcade.Sprite } */
+    player
+
+
     /* preload and create methods are hooks called at various time by phaser
     
     preload is called to specify images audio or assets to load before starting the scene
@@ -43,7 +47,19 @@ export default class Game extends Phaser.Scene {
             body.updateFromGameObject();
         }
         // add  the bunny to the screen
-        this.physics.add.sprite(240, 320, 'bunny-stand')
-            .setScale(0.5)
+        this.player = this.physics.add.sprite(240, 320, 'bunny-stand')
+            .setScale(0.5);
+        this.physics.add.collider(platforms, this.player);
+        /*check for collision only for descentiong bunny */
+        this.player.body.checkCollision.up = false;
+        this.player.body.checkCollision.left = false;
+        this.player.body.checkCollision.right = false;
+    }
+    update() {
+        /* find out from the arcade player if the player physics body is touching something from beneath */
+        const touchingDown = this.player.body.touching.down;
+        if (touchingDown) {
+            this.player.setVelocityY(-300);
+        }
     }
 }
