@@ -14,6 +14,8 @@ export default class Game extends Phaser.Scene {
     platforms
     cursors
     carrots
+    carrotsCollected = 0
+    carrotsCollectedText
 
     /* preload and create methods are hooks called at various time by phaser
     
@@ -84,12 +86,19 @@ export default class Game extends Phaser.Scene {
         this.carrots.get(240, 320, 'carrot');
         // add this collider
         this.physics.add.collider(this.platforms, this.carrots);
-        
 
-// 
+        this.physics.add.overlap(
+            this.player,
+            this.carrots,
+            this.handleCollectCarrot,//called on overlap
+            undefined,
+            this
+        )
 
-
-
+        const style = { color: "#000", fontSize: 24 }
+        this.carrotsCollectedText = this.add.text(240, 10, `Carrots:${this.carrotsCollected} `, style)
+            .setScrollFactor(0)
+            .setOrigin(0.5, 0);
     }
     update() {
         /* find out from the arcade player if the player physics body is touching something from beneath */
@@ -143,10 +152,36 @@ export default class Game extends Phaser.Scene {
         const y = sprite.y - sprite.displayHeight;
         /** @type {Phaser.Physics.Arcade.Sprite} */
         const carrot = this.carrots.get(sprite.x, y, 'carrot')
-        this.add.existing(carrot);
 
+        // set active and visible
+        carrot.setActive(true);
+        carrot.setVisible(true);
+
+        this.add.existing(carrot);
         // update the carrots physical body size;
         carrot.body.setSize(carrot.width, carrot.height);
+
+        // making sure the carrots body is enabledin the physics world
+        this.physics.world.enable(carrot);
         return carrot;
+    }
+    handleCollectCarrot(player, carrot) {
+        // hide from display
+        this.carrots.killAndHide(carrot);
+        // disable from physics word
+        this.physics.world.disableBody(carrot.body);
+
+        // increment carrots collected;
+        this.carrotsCollected++
+
+        /* create new value and set it */
+        const value = `Carrots :${this.carrotsCollected}`
+        this.carrotsCollectedText.text = value;
+    }
+
+
+    findBottomMostPlatform() {
+        const platforms = this.platforms.getChildren();
+
     }
 }
