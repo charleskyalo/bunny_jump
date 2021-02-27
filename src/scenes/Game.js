@@ -133,6 +133,12 @@ export default class Game extends Phaser.Scene {
             }
         })
         this.horizontalWrap(this.player);
+
+
+        const bottomPlatform = this.findBottomMostPlatform();
+        if (this.player.y > bottomPlatform.y + 200) {
+            console.log("Game Over");
+        }
     }
     horizontalWrap(sprite) {
         const halfWidth = sprite.displayWidth * 0.5;
@@ -182,6 +188,14 @@ export default class Game extends Phaser.Scene {
 
     findBottomMostPlatform() {
         const platforms = this.platforms.getChildren();
-
+        let bottomPlatform = platforms[0];
+        for (let i = 1; i < platforms.length; i++) {
+            const platform = platforms[i];
+            if (platform.y < bottomPlatform.y) {
+                continue;
+            }
+            bottomPlatform = platform;
+        }
+        return bottomPlatform;
     }
 }
