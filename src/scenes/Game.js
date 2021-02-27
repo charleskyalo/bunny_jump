@@ -22,6 +22,10 @@ export default class Game extends Phaser.Scene {
     preload is called to specify images audio or assets to load before starting the scene
     */
 
+    init() {
+        this.carrotsCollected = 0;
+    }
+
     preload() {
         this.load.image('background', 'assets/bg_layer1.png');
 
@@ -96,7 +100,7 @@ export default class Game extends Phaser.Scene {
         )
 
         const style = { color: "#000", fontSize: 24 }
-        this.carrotsCollectedText = this.add.text(240, 10, `Carrots:${this.carrotsCollected} `, style)
+        this.carrotsCollectedText = this.add.text(240, 10, `Carrots: 0 `, style)
             .setScrollFactor(0)
             .setOrigin(0.5, 0);
     }
@@ -178,10 +182,10 @@ export default class Game extends Phaser.Scene {
         this.physics.world.disableBody(carrot.body);
 
         // increment carrots collected;
-        this.carrotsCollected++
-
+        
         /* create new value and set it */
         const value = `Carrots :${this.carrotsCollected}`
+        this.carrotsCollected += 1;
         this.carrotsCollectedText.text = value;
     }
 
@@ -198,4 +202,5 @@ export default class Game extends Phaser.Scene {
         }
         return bottomPlatform;
     }
+
 }
