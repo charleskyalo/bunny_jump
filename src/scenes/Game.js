@@ -30,7 +30,12 @@ export default class Game extends Phaser.Scene {
     */
 
     create() {
-        this.add.image(240, 320, 'background');
+        this.add.image(240, 320, 'background')
+            .setScrollFactor(1, 0);
+        /* 
+        By setting the y axis with a scroll factor to 0  
+        keep the background from scrolling up and down with the camera.
+        */
 
         /* creating a static group  */
         this.platforms = this.physics.add.staticGroup();
