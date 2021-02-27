@@ -1,4 +1,8 @@
 import Phaser from '../lib/phaser.js'
+
+/* import carrot  */
+import Carrot from '../game/Carrot.js'
+
 export default class Game extends Phaser.Scene {
     constructor() {
         /* unique key  for each scene*/
@@ -23,6 +27,8 @@ export default class Game extends Phaser.Scene {
 
         /* load the player */
         this.load.image('bunny-stand', 'assets/bunny1_stand.png');
+        /* load carrot */
+        this.load.image('carrot', 'assets/carrot.png');
         this.cursors = this.input.keyboard.createCursorKeys();
     }
     /* 
@@ -68,6 +74,11 @@ export default class Game extends Phaser.Scene {
 
         /* set the camera deathzone */
         this.cameras.main.setDeadzone(this.scale.width * 1.5);
+
+        // create a carrot
+        const carrot = new Carrot(this, 240, 320, 'carrot');
+        this.add.existing(carrot);
+
     }
     update() {
         /* find out from the arcade player if the player physics body is touching something from beneath */
