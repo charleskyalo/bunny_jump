@@ -8,6 +8,7 @@ export default class Game extends Phaser.Scene {
     /** @type { Phaser.Physics.Arcade.Sprite } */
     player;
     platforms
+    cursors
 
     /* preload and create methods are hooks called at various time by phaser
     
@@ -21,7 +22,8 @@ export default class Game extends Phaser.Scene {
         this.load.image('platform', 'assets/ground_grass.png');
 
         /* load the player */
-        this.load.image('bunny-stand', 'assets/bunny1_stand.png')
+        this.load.image('bunny-stand', 'assets/bunny1_stand.png');
+        this.cursors = this.input.keyboard.createCursorKeys();
     }
     /* 
     create is called once all the assets have been loaded
@@ -71,6 +73,19 @@ export default class Game extends Phaser.Scene {
             this.player.setVelocityY(-300);
         }
 
+
+        // left and right logic 
+
+        if (this.cursors.left.isDown && !touchingDown) {
+            this.player.setVelocityX(-200);
+        } else if (this.cursors.right.isDown && !touchingDown) {
+            this.player.setVelocityX(200);
+        } else {
+            this.player.setVelocityX(0)
+        }
+
+
+
         /** @type {Phaser.Physics.Arcade.Sprite} */
         this.platforms.children.iterate(child => {
             const platform = child;
@@ -80,11 +95,5 @@ export default class Game extends Phaser.Scene {
                 platform.body.updateFromGameObject()
             }
         })
-
-
-
-
-
-
     }
 }
