@@ -15,6 +15,9 @@ export default class Game extends Phaser.Scene {
 
         /* load platform image */
         this.load.image('platform', 'assets/ground_grass.png');
+
+        /* load the player */
+        this.load.image('bunny-stand', 'assets/bunny1_stand.png')
     }
     /* 
     create is called once all the assets have been loaded
@@ -25,7 +28,22 @@ export default class Game extends Phaser.Scene {
     create() {
         this.add.image(240, 320, 'background');
 
-        // add platform
-        this.physics.add.image(240, 320, 'platform').setScale(0.5);
+        /* creating a static group  */
+        const platforms = this.physics.add.staticGroup();
+
+        // create 5 platforms from the group
+        for (let i = 0; i < 5; ++i) {
+            const x = Phaser.Math.Between(80, 400);
+            const y = 150 * i;
+            /** @type {Phaser.Physics.Arcade.Sprite} */
+            const platform = platforms.create(x, y, 'platform');
+            platform.scale = 0.5;
+            /** @type {Phaser.Physics.Arcade.StaticBody} */
+            const body = platform.body;
+            body.updateFromGameObject();
+        }
+        // add  the bunny to the screen
+        this.physics.add.sprite(240, 320, 'bunny-stand')
+            .setScale(0.5)
     }
 }
