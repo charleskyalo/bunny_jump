@@ -65,6 +65,9 @@ export default class Game extends Phaser.Scene {
 
         // follow the player using the camera
         this.cameras.main.startFollow(this.player);
+
+        /* set the camera deathzone */
+        this.cameras.main.setDeadzone(this.scale.width * 1.5);
     }
     update() {
         /* find out from the arcade player if the player physics body is touching something from beneath */
@@ -95,5 +98,15 @@ export default class Game extends Phaser.Scene {
                 platform.body.updateFromGameObject()
             }
         })
+        this.horizontalWrap(this.player);
+    }
+    horizontalWrap(sprite) {
+        const halfWidth = sprite.displayWidth * 0.5;
+        const gameWidth = this.scale.width;
+        if (sprite.x < -halfWidth) {
+            sprite.x = gameWidth + halfWidth;
+        } else if (sprite.x > gameWidth + halfWidth) {
+            sprite.x = -halfWidth;
+        }
     }
 }
