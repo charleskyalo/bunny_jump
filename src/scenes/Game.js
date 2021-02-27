@@ -26,6 +26,6 @@ export default class Game extends Phaser.Scene {
         this.add.image(240, 320, 'background');
 
         // add platform
-        this.add.image(240, 320, 'platform').setScale(0.5);
+        this.physics.add.image(240, 320, 'platform').setScale(0.5);
     }
 }
