@@ -11,15 +11,21 @@ export default class Game extends Phaser.Scene {
     */
 
     preload() {
+        this.load.image('background', 'assets/bg_layer1.png');
 
+        /* load platform image */
+        this.load.image('platform', 'assets/ground_grass.png');
     }
     /* 
     create is called once all the assets have been loaded
     only assets that have been loaded are used in create
 
     */
-    
-    create() {
 
+    create() {
+        this.add.image(240, 320, 'background');
+
+        // add platform
+        this.add.image(240, 320, 'platform').setScale(0.5);
     }
 }
