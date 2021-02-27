@@ -34,9 +34,11 @@ export default class Game extends Phaser.Scene {
 
         /* load the player */
         this.load.image('bunny-stand', 'assets/bunny1_stand.png');
+        this.load.image('bunny-jump', 'assets/bunny1_jump.png');
         /* load carrot */
         this.load.image('carrot', 'assets/carrot.png');
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.load.audio('jump', 'assets/sfx/bunnyJump.ogg')
     }
     /* 
     create is called once all the assets have been loaded
@@ -109,6 +111,12 @@ export default class Game extends Phaser.Scene {
         const touchingDown = this.player.body.touching.down;
         if (touchingDown) {
             this.player.setVelocityY(-300);
+            this.player.setTexture('bunny-jump');
+            this.sound.play('jump');
+        }
+        const vy = this.player.body.velocity.y;
+        if (vy > 0 && this.player.texture.key !== 'bunny-stand') {
+            this.player.setTexture('bunny-stand')
         }
 
 
@@ -182,7 +190,7 @@ export default class Game extends Phaser.Scene {
         this.physics.world.disableBody(carrot.body);
 
         // increment carrots collected;
-        
+
         /* create new value and set it */
         const value = `Carrots :${this.carrotsCollected}`
         this.carrotsCollected += 1;
