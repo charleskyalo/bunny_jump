@@ -10,9 +10,10 @@ export default class Game extends Phaser.Scene {
     }
 
     /** @type { Phaser.Physics.Arcade.Sprite } */
-    player;
+    player
     platforms
     cursors
+    carrots
 
     /* preload and create methods are hooks called at various time by phaser
     
@@ -76,8 +77,18 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.setDeadzone(this.scale.width * 1.5);
 
         // create a carrot
-        const carrot = new Carrot(this, 240, 320, 'carrot');
-        this.add.existing(carrot);
+        this.carrots = this.physics.add.group({
+            classType: Carrot
+        })
+
+        this.carrots.get(240, 320, 'carrot');
+        // add this collider
+        this.physics.add.collider(this.platforms, this.carrots);
+        
+
+// 
+
+
 
     }
     update() {
@@ -106,7 +117,10 @@ export default class Game extends Phaser.Scene {
             const scrollY = this.cameras.main.scrollY;
             if (platform.y >= scrollY + 700) {
                 platform.y = scrollY - Phaser.Math.Between(50, 100)
-                platform.body.updateFromGameObject()
+                platform.body.updateFromGameObject();
+
+                // create a carrot above the reused platform
+                this.addCarrotAbove(platform);
             }
         })
         this.horizontalWrap(this.player);
@@ -119,5 +133,20 @@ export default class Game extends Phaser.Scene {
         } else if (sprite.x > gameWidth + halfWidth) {
             sprite.x = -halfWidth;
         }
+    }
+    addCarrotAbove(sprite) {
+
+        /**
+        * @param {Phaser.GameObjects.Sprite} sprite
+        */
+
+        const y = sprite.y - sprite.displayHeight;
+        /** @type {Phaser.Physics.Arcade.Sprite} */
+        const carrot = this.carrots.get(sprite.x, y, 'carrot')
+        this.add.existing(carrot);
+
+        // update the carrots physical body size;
+        carrot.body.setSize(carrot.width, carrot.height);
+        return carrot;
     }
 }
