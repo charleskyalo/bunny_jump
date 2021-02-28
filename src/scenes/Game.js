@@ -15,6 +15,7 @@ export default class Game extends Phaser.Scene {
     carrots
     carrotsCollected = 0
     carrotsCollectedText
+    isClicking = false
 
     /* preload and create methods are hooks called at various time by phaser
     
@@ -117,16 +118,27 @@ export default class Game extends Phaser.Scene {
         }
 
 
-        // left and right logic 
+        // left and right logic
 
-        if (this.cursors.left.isDown && !touchingDown) {
-            this.player.setVelocityX(-200);
-        } else if (this.cursors.right.isDown && !touchingDown) {
-            this.player.setVelocityX(200);
-        } else {
-            this.player.setVelocityX(0)
+        /*
+        left and right arrow key for the desktop
+
+          if (this.cursors.left.isDown && !touchingDown) {
+              this.player.setVelocityX(-200);
+          } else if (this.cursors.right.isDown && !touchingDown) {
+              this.player.setVelocityX(200);
+          } else {
+              this.player.setVelocityX(0)
+          }
+          */
+
+        /* game input with touch pointer */
+        if (!this.input.activePointer.isDown && this.isClicking == true) {
+            this.player.x = this.input.activePointer.position.x;
+            this.isClicking = false;
+        } else if (this.input.activePointer.isDown && this.isClicking == false) {
+            this.isClicking = true;
         }
-
 
 
         /** @type {Phaser.Physics.Arcade.Sprite} */
