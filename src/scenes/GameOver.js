@@ -18,7 +18,7 @@ export default class GameOver extends Phaser.Scene {
             .setScrollFactor(1, 0);
         const width = this.scale.width;
         const height = this.scale.height;
-        this.add.text(width * 0.5, height * 0.5, `      Game Over  😥 \n click anywhere to start again
+        this.add.text(width * 0.5, height * 0.5, `         Game Over 😥 \n click anywhere to start again
         `, {
             fontSize: 24,
             color: "#000"
@@ -34,6 +34,7 @@ export default class GameOver extends Phaser.Scene {
         this.image.setInteractive();
         this.image.on('pointerup', () => {
             this.scene.start('game');
+            this.scene.stop('game-over')
         })
 
 
