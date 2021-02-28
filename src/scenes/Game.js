@@ -8,7 +8,6 @@ export default class Game extends Phaser.Scene {
         /* unique key  for each scene*/
         super('game')
     }
-
     /** @type { Phaser.Physics.Arcade.Sprite } */
     player
     platforms
@@ -38,7 +37,6 @@ export default class Game extends Phaser.Scene {
         /* load carrot */
         this.load.image('carrot', 'assets/carrot.png');
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.load.audio('jump', 'assets/sfx/bunnyJump.ogg')
     }
     /* 
     create is called once all the assets have been loaded
@@ -112,7 +110,6 @@ export default class Game extends Phaser.Scene {
         if (touchingDown) {
             this.player.setVelocityY(-300);
             this.player.setTexture('bunny-jump');
-            this.sound.play('jump');
         }
         const vy = this.player.body.velocity.y;
         if (vy > 0 && this.player.texture.key !== 'bunny-stand') {
