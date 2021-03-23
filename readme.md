@@ -66,7 +66,7 @@ $ git clone  https://github.com/charleskyalo/bunny_jump.git
 
 <!-- This section should list any articles or add-ons/plugins that helps you to complete the project. This is optional but it will help you in the future. For exmpale -->
 
--[Tommy Leung](https://github.com/ourcade) For the tutorial.
+-[Tommy Leung](https://github.com/ourcade) For the inspiration.
 
 -[kenny](https://kenney.nl) For the game assets.
 
