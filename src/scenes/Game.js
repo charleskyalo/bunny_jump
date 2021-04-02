@@ -59,7 +59,7 @@ export default class Game extends Phaser.Scene {
         // create 5 platforms from the group
         for (let i = 0; i < 5; ++i) {
             const x = Phaser.Math.Between(80, 400);
-            const y = 150 * i;
+            const y = 175 * i;
             /** @type {Phaser.Physics.Arcade.Sprite} */
             const platform = this.platforms.create(x, y, 'platform');
             platform.scale = 0.5;
